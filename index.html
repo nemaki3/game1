@@ -18,23 +18,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      padding: 2rem 1rem;
       min-height: 100vh;
     }
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: #e94560;
       letter-spacing: 2px;
     }
 
+    /* スコア・CPS 表示 */
     #score {
       font-size: 1.5rem;
-      margin-bottom: 2rem;
       color: #a8dadc;
     }
 
+    #cps-display {
+      font-size: 0.95rem;
+      color: #888;
+      margin-bottom: 1.5rem;
+    }
+
+    /* クリックボタン */
     #click-btn {
       width: 160px;
       height: 160px;
@@ -48,6 +55,7 @@
       box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
       transition: transform 0.1s, box-shadow 0.1s;
       user-select: none;
+      position: relative;
     }
 
     #click-btn:active {
@@ -56,22 +64,57 @@
     }
 
     #per-click {
-      margin-top: 1.5rem;
+      margin-top: 0.8rem;
       font-size: 0.95rem;
       color: #888;
     }
 
-    /* アップグレードエリア */
-    #upgrade-area {
-      margin-top: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      width: 320px;
+    /* クリックエフェクト（+N テキスト） */
+    .click-effect {
+      position: fixed;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #f0a500;
+      pointer-events: none;
+      animation: floatUp 0.8s ease-out forwards;
+      z-index: 100;
     }
 
-    .upgrade-btn {
-      padding: 0.75rem 1rem;
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-60px); }
+    }
+
+    /* アップグレード・生産者 2カラムレイアウト */
+    #bottom-area {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 680px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .panel-title {
+      font-size: 0.85rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.2rem;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.4rem;
+    }
+
+    /* 共通ボタンスタイル */
+    .shop-btn {
+      padding: 0.7rem 0.8rem;
       border: 1px solid #444;
       border-radius: 8px;
       background-color: #16213e;
@@ -81,24 +124,79 @@
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.2s;
+      width: 100%;
+      text-align: left;
     }
 
-    .upgrade-btn:hover:not(:disabled) {
+    .shop-btn:hover:not(:disabled) {
       background-color: #0f3460;
     }
 
-    .upgrade-btn:disabled {
+    .shop-btn:disabled {
       opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .upgrade-name {
-      font-size: 0.95rem;
+    .btn-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
     }
 
-    .upgrade-cost {
+    .btn-name {
+      font-size: 0.9rem;
+    }
+
+    .btn-desc {
+      font-size: 0.75rem;
+      color: #888;
+    }
+
+    .btn-cost {
       font-size: 0.85rem;
       color: #f0a500;
+      white-space: nowrap;
+      margin-left: 0.5rem;
+    }
+
+    /* 生産者の個数バッジ */
+    .btn-count {
+      background-color: #0f3460;
+      border-radius: 4px;
+      padding: 0.15rem 0.45rem;
+      font-size: 0.8rem;
+      color: #a8dadc;
+      margin-left: 0.4rem;
+      white-space: nowrap;
+    }
+
+    /* セーブ・リセットボタン */
+    #save-area {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .util-btn {
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background-color: #16213e;
+      color: #888;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background-color 0.2s;
+    }
+
+    .util-btn:hover {
+      background-color: #0f3460;
+      color: #eaeaea;
+    }
+
+    #save-notice {
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 0.4rem;
     }
   </style>
 </head>
@@ -106,75 +204,292 @@
 
   <h1>clickergame1</h1>
   <div id="score">スコア: 0</div>
+  <div id="cps-display">毎秒 +0.0点</div>
 
   <button id="click-btn">クリック!</button>
   <div id="per-click">1クリック = 1点</div>
 
-  <div id="upgrade-area">
-    <button class="upgrade-btn" id="upgrade-1" data-cost="10" data-power="1">
-      <span class="upgrade-name">クリック強化 Lv.1</span>
-      <span class="upgrade-cost">10点</span>
-    </button>
-    <button class="upgrade-btn" id="upgrade-2" data-cost="50" data-power="5">
-      <span class="upgrade-name">クリック強化 Lv.2</span>
-      <span class="upgrade-cost">50点</span>
-    </button>
-    <button class="upgrade-btn" id="upgrade-3" data-cost="200" data-power="20">
-      <span class="upgrade-name">クリック強化 Lv.3</span>
-      <span class="upgrade-cost">200点</span>
-    </button>
+  <div id="bottom-area">
+    <!-- アップグレードパネル -->
+    <div class="panel" id="upgrade-panel">
+      <div class="panel-title">アップグレード</div>
+      <!-- JS で生成 -->
+    </div>
+
+    <!-- 生産者パネル -->
+    <div class="panel" id="producer-panel">
+      <div class="panel-title">生産者</div>
+      <!-- JS で生成 -->
+    </div>
   </div>
 
+  <div id="save-area">
+    <button class="util-btn" id="save-btn">セーブ</button>
+    <button class="util-btn" id="reset-btn">リセット</button>
+  </div>
+  <div id="save-notice"></div>
+
   <script>
-    // スコアとクリック倍率
+    // ============================================================
+    // ゲーム状態
+    // ============================================================
     let score = 0;
     let clickPower = 1;
 
-    const scoreEl = document.getElementById('score');
-    const clickBtn = document.getElementById('click-btn');
-    const perClickEl = document.getElementById('per-click');
+    // アップグレード定義
+    const UPGRADES = [
+      { id: 'u1', name: 'クリック強化 Lv.1', cost: 10,   power: 1  },
+      { id: 'u2', name: 'クリック強化 Lv.2', cost: 50,   power: 5  },
+      { id: 'u3', name: 'クリック強化 Lv.3', cost: 200,  power: 20 },
+      { id: 'u4', name: 'クリック強化 Lv.4', cost: 1000, power: 100 },
+    ];
 
-    // クリックでスコア加算
-    clickBtn.addEventListener('click', () => {
+    // 購入済みアップグレード管理
+    const upgradePurchased = {};
+
+    // 生産者定義（自動クリック）
+    const PRODUCERS = [
+      { id: 'p1', name: '見習いクリッカー', desc: '手動で頑張る見習い',   baseCost: 15,   baseCps: 0.1  },
+      { id: 'p2', name: 'オートクリッカー', desc: '自動でクリックする機械', baseCost: 100,  baseCps: 0.5  },
+      { id: 'p3', name: 'クリックロボット', desc: '高性能クリックロボット', baseCost: 500,  baseCps: 2    },
+      { id: 'p4', name: 'クリック工場',     desc: '大量生産クリック工場',  baseCost: 2000, baseCps: 10   },
+    ];
+
+    // 生産者の個数
+    const producerCount = {};
+    PRODUCERS.forEach(p => { producerCount[p.id] = 0; });
+
+    // ============================================================
+    // 計算ヘルパー
+    // ============================================================
+
+    // 生産者の現在のコスト（購入するたびに 1.15 倍）
+    function getProducerCost(producer) {
+      return Math.floor(producer.baseCost * Math.pow(1.15, producerCount[producer.id]));
+    }
+
+    // 毎秒の合計生産量（CPS）
+    function calcCps() {
+      return PRODUCERS.reduce((sum, p) => sum + p.baseCps * producerCount[p.id], 0);
+    }
+
+    // ============================================================
+    // 画面更新
+    // ============================================================
+
+    function updateScore() {
+      document.getElementById('score').textContent = `スコア: ${Math.floor(score)}`;
+    }
+
+    function updateCpsDisplay() {
+      const cps = calcCps();
+      document.getElementById('cps-display').textContent = `毎秒 +${cps.toFixed(1)}点`;
+    }
+
+    function updateAllButtons() {
+      // アップグレードボタン
+      UPGRADES.forEach(u => {
+        const btn = document.getElementById('btn-' + u.id);
+        if (!btn) return;
+        btn.disabled = upgradePurchased[u.id] || score < u.cost;
+      });
+
+      // 生産者ボタン
+      PRODUCERS.forEach(p => {
+        const btn = document.getElementById('btn-' + p.id);
+        if (!btn) return;
+        const cost = getProducerCost(p);
+        btn.disabled = score < cost;
+        // コスト表示を更新
+        btn.querySelector('.btn-cost').textContent = `${cost}点`;
+        // 個数表示を更新
+        btn.querySelector('.btn-count').textContent = `×${producerCount[p.id]}`;
+      });
+    }
+
+    // ============================================================
+    // UI 生成
+    // ============================================================
+
+    function buildUpgradePanel() {
+      const panel = document.getElementById('upgrade-panel');
+      UPGRADES.forEach(u => {
+        const btn = document.createElement('button');
+        btn.className = 'shop-btn';
+        btn.id = 'btn-' + u.id;
+        btn.innerHTML = `
+          <div class="btn-left">
+            <span class="btn-name">${u.name}</span>
+            <span class="btn-desc">クリック +${u.power}点</span>
+          </div>
+          <span class="btn-cost">${u.cost}点</span>
+        `;
+        btn.addEventListener('click', () => buyUpgrade(u));
+        panel.appendChild(btn);
+      });
+    }
+
+    function buildProducerPanel() {
+      const panel = document.getElementById('producer-panel');
+      PRODUCERS.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'shop-btn';
+        btn.id = 'btn-' + p.id;
+        btn.innerHTML = `
+          <div class="btn-left">
+            <span class="btn-name">${p.name}</span>
+            <span class="btn-desc">${p.desc}（+${p.baseCps}/秒）</span>
+          </div>
+          <span class="btn-cost">${p.baseCost}点</span>
+          <span class="btn-count">×0</span>
+        `;
+        btn.addEventListener('click', () => buyProducer(p));
+        panel.appendChild(btn);
+      });
+    }
+
+    // ============================================================
+    // 購入処理
+    // ============================================================
+
+    function buyUpgrade(u) {
+      if (upgradePurchased[u.id] || score < u.cost) return;
+      score -= u.cost;
+      clickPower += u.power;
+      upgradePurchased[u.id] = true;
+
+      // ボタンを購入済み表示に変更
+      const btn = document.getElementById('btn-' + u.id);
+      btn.querySelector('.btn-name').textContent += ' ✓';
+      btn.disabled = true;
+
+      document.getElementById('per-click').textContent = `1クリック = ${clickPower}点`;
+      updateScore();
+      updateAllButtons();
+      autoSave();
+    }
+
+    function buyProducer(p) {
+      const cost = getProducerCost(p);
+      if (score < cost) return;
+      score -= cost;
+      producerCount[p.id]++;
+      updateScore();
+      updateCpsDisplay();
+      updateAllButtons();
+      autoSave();
+    }
+
+    // ============================================================
+    // クリック処理
+    // ============================================================
+
+    document.getElementById('click-btn').addEventListener('click', (e) => {
       score += clickPower;
       updateScore();
-      updateUpgradeButtons();
+      updateAllButtons();
+      spawnClickEffect(e.clientX, e.clientY, clickPower);
+      autoSave();
     });
 
-    // スコア表示更新
-    function updateScore() {
-      scoreEl.textContent = `スコア: ${score}`;
+    // クリックエフェクト（+N が飛び出す）
+    function spawnClickEffect(x, y, value) {
+      const el = document.createElement('div');
+      el.className = 'click-effect';
+      el.textContent = `+${value}`;
+      el.style.left = `${x - 10}px`;
+      el.style.top  = `${y - 10}px`;
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
     }
 
-    // アップグレードボタンの有効/無効を更新
-    function updateUpgradeButtons() {
-      document.querySelectorAll('.upgrade-btn').forEach(btn => {
-        const cost = parseInt(btn.dataset.cost);
-        btn.disabled = score < cost;
-      });
+    // ============================================================
+    // 自動生産（50ms ごと）
+    // ============================================================
+
+    setInterval(() => {
+      const cps = calcCps();
+      if (cps === 0) return;
+      score += cps / 20; // 1000ms / 50ms = 20
+      updateScore();
+      updateAllButtons();
+    }, 50);
+
+    // ============================================================
+    // セーブ / ロード / リセット
+    // ============================================================
+
+    const SAVE_KEY = 'clickergame1_save';
+
+    function saveGame(showNotice = true) {
+      const data = {
+        score,
+        clickPower,
+        upgradePurchased: { ...upgradePurchased },
+        producerCount:    { ...producerCount },
+      };
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      if (showNotice) {
+        const el = document.getElementById('save-notice');
+        el.textContent = `セーブしました（${new Date().toLocaleTimeString('ja-JP')}）`;
+        setTimeout(() => { el.textContent = ''; }, 3000);
+      }
     }
 
-    // アップグレード購入処理
-    document.querySelectorAll('.upgrade-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cost = parseInt(btn.dataset.cost);
-        const power = parseInt(btn.dataset.power);
+    function loadGame() {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return;
 
-        if (score >= cost) {
-          score -= cost;
-          clickPower += power;
-          btn.disabled = true;
-          btn.style.opacity = '0.3';
-          btn.querySelector('.upgrade-name').textContent += ' (購入済み)';
-          perClickEl.textContent = `1クリック = ${clickPower}点`;
-          updateScore();
-          updateUpgradeButtons();
-        }
-      });
+      const data = JSON.parse(raw);
+      score       = data.score       ?? 0;
+      clickPower  = data.clickPower  ?? 1;
+
+      // アップグレード復元
+      if (data.upgradePurchased) {
+        Object.assign(upgradePurchased, data.upgradePurchased);
+        UPGRADES.forEach(u => {
+          if (upgradePurchased[u.id]) {
+            const btn = document.getElementById('btn-' + u.id);
+            if (btn) {
+              btn.querySelector('.btn-name').textContent += ' ✓';
+              btn.disabled = true;
+            }
+          }
+        });
+      }
+
+      // 生産者復元
+      if (data.producerCount) {
+        Object.assign(producerCount, data.producerCount);
+      }
+
+      document.getElementById('per-click').textContent = `1クリック = ${clickPower}点`;
+      updateScore();
+      updateCpsDisplay();
+      updateAllButtons();
+    }
+
+    // 30秒ごとに自動セーブ
+    function autoSave() { saveGame(false); }
+    setInterval(() => saveGame(false), 30000);
+
+    document.getElementById('save-btn').addEventListener('click', () => saveGame(true));
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      if (!confirm('セーブデータを削除してリセットしますか？')) return;
+      localStorage.removeItem(SAVE_KEY);
+      location.reload();
     });
 
-    // 初期状態でボタンの有効/無効を設定
-    updateUpgradeButtons();
+    // ============================================================
+    // 初期化
+    // ============================================================
+
+    buildUpgradePanel();
+    buildProducerPanel();
+    loadGame();
+    updateCpsDisplay();
+    updateAllButtons();
   </script>
 
 </body>
