@@ -1,0 +1,32 @@
+# OS 生成ファイル
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# エディタ・IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node.js（将来 npm / Phaser.js を導入した場合）
+node_modules/
+package-lock.json
+yarn.lock
+
+# ビルド成果物
+dist/
+build/
+
+# ログ
+*.log
+npm-debug.log*
+
+# 環境変数・シークレット
+.env
+.env.local
+.env.*.local
+
+# 一時ファイル
+*.tmp
+*.bak
