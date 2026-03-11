@@ -12,180 +12,288 @@
     }
 
     body {
-      background-color: #1a1a2e;
+      background-color: #0d0d1a;
       color: #eaeaea;
       font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem;
-      min-height: 100vh;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+    /* ===== ヘッダー ===== */
+    header {
+      background: linear-gradient(90deg, #0f3460, #1a1a2e);
+      border-bottom: 2px solid #e94560;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    header h1 {
+      font-size: 1.3rem;
       color: #e94560;
       letter-spacing: 2px;
+      white-space: nowrap;
     }
 
-    /* スコア・CPS 表示 */
-    #score {
+    #header-score {
       font-size: 1.5rem;
+      font-weight: bold;
+      color: #f0e040;
+      text-shadow: 0 0 12px rgba(240, 224, 64, 0.6);
+      white-space: nowrap;
+    }
+
+    #header-cps {
+      font-size: 0.85rem;
       color: #a8dadc;
+      white-space: nowrap;
     }
 
-    #cps-display {
-      font-size: 0.95rem;
-      color: #888;
-      margin-bottom: 1.5rem;
-    }
-
-    /* クリックボタン */
-    #click-btn {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      border: none;
-      background: radial-gradient(circle, #e94560, #c0392b);
-      color: white;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
-      transition: transform 0.1s, box-shadow 0.1s;
-      user-select: none;
-      position: relative;
-    }
-
-    #click-btn:active {
-      transform: scale(0.93);
-      box-shadow: 0 0 8px rgba(233, 69, 96, 0.3);
-    }
-
-    #per-click {
-      margin-top: 0.8rem;
-      font-size: 0.95rem;
-      color: #888;
-    }
-
-    /* クリックエフェクト（+N テキスト） */
-    .click-effect {
-      position: fixed;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #f0a500;
-      pointer-events: none;
-      animation: floatUp 0.8s ease-out forwards;
-      z-index: 100;
-    }
-
-    @keyframes floatUp {
-      0%   { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-60px); }
-    }
-
-    /* アップグレード・生産者 2カラムレイアウト */
-    #bottom-area {
-      margin-top: 2rem;
+    /* ===== メインレイアウト（3カラム） ===== */
+    #main-layout {
       display: flex;
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 680px;
-      align-items: flex-start;
+      flex: 1;
+      gap: 0;
+      overflow: hidden;
     }
 
-    .panel {
+    /* ===== 左パネル（アップグレード） ===== */
+    #left-panel {
+      width: 240px;
+      min-width: 200px;
+      background-color: #12122a;
+      border-right: 1px solid #2a2a4a;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* ===== 中央パネル ===== */
+    #center-panel {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1rem 1.5rem;
+      gap: 1rem;
+      overflow-y: auto;
     }
 
-    .panel-title {
-      font-size: 0.85rem;
-      color: #888;
+    /* ===== 右パネル（生産者） ===== */
+    #right-panel {
+      width: 260px;
+      min-width: 200px;
+      background-color: #12122a;
+      border-left: 1px solid #2a2a4a;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* ===== パネルタイトル ===== */
+    .panel-header {
+      padding: 0.7rem 1rem;
+      font-size: 0.75rem;
+      font-weight: bold;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.2rem;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.4rem;
+      letter-spacing: 1.5px;
+      color: #666;
+      border-bottom: 1px solid #2a2a4a;
+      background-color: #0f0f22;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    /* 共通ボタンスタイル */
+    /* ===== 左右パネル共通ボタン ===== */
     .shop-btn {
-      padding: 0.7rem 0.8rem;
-      border: 1px solid #444;
-      border-radius: 8px;
-      background-color: #16213e;
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: none;
+      border-bottom: 1px solid #1a1a35;
+      background-color: transparent;
       color: #eaeaea;
       cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      transition: background-color 0.2s;
-      width: 100%;
+      gap: 0.6rem;
+      transition: background-color 0.15s;
       text-align: left;
     }
 
     .shop-btn:hover:not(:disabled) {
-      background-color: #0f3460;
+      background-color: #1a2a4a;
     }
 
     .shop-btn:disabled {
-      opacity: 0.4;
+      opacity: 0.35;
       cursor: not-allowed;
     }
 
-    .btn-left {
+    .shop-btn .btn-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      width: 2rem;
+      text-align: center;
+    }
+
+    .shop-btn .btn-info {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.1rem;
+      min-width: 0;
     }
 
     .btn-name {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .btn-desc {
-      font-size: 0.75rem;
-      color: #888;
+      font-size: 0.7rem;
+      color: #777;
+    }
+
+    .btn-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.15rem;
+      flex-shrink: 0;
     }
 
     .btn-cost {
-      font-size: 0.85rem;
-      color: #f0a500;
-      white-space: nowrap;
-      margin-left: 0.5rem;
-    }
-
-    /* 生産者の個数バッジ */
-    .btn-count {
-      background-color: #0f3460;
-      border-radius: 4px;
-      padding: 0.15rem 0.45rem;
       font-size: 0.8rem;
-      color: #a8dadc;
-      margin-left: 0.4rem;
+      color: #f0e040;
       white-space: nowrap;
     }
 
-    /* セーブ・リセットボタン */
-    #save-area {
-      margin-top: 2rem;
+    .btn-count {
+      font-size: 0.75rem;
+      background-color: #0f3460;
+      border-radius: 3px;
+      padding: 0.1rem 0.4rem;
+      color: #a8dadc;
+      white-space: nowrap;
+    }
+
+    /* 購入済みアップグレード */
+    .shop-btn.purchased {
+      opacity: 0.5;
+      background-color: #0a1a10;
+    }
+
+    /* ===== 中央: クリックボタン ===== */
+    #click-area {
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    #click-btn {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 3px solid rgba(233, 69, 96, 0.4);
+      background: radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b 60%, #7b1a1a);
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow:
+        0 0 30px rgba(233, 69, 96, 0.4),
+        0 0 60px rgba(233, 69, 96, 0.15),
+        inset 0 -4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.08s, box-shadow 0.08s;
+      user-select: none;
+      position: relative;
+    }
+
+    #click-btn:hover {
+      box-shadow:
+        0 0 40px rgba(233, 69, 96, 0.6),
+        0 0 80px rgba(233, 69, 96, 0.25),
+        inset 0 -4px 8px rgba(0,0,0,0.3);
+      transform: scale(1.03);
+    }
+
+    #click-btn:active {
+      transform: scale(0.92);
+      box-shadow:
+        0 0 10px rgba(233, 69, 96, 0.3),
+        inset 0 -2px 4px rgba(0,0,0,0.3);
+    }
+
+    #per-click {
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    /* ===== クリックエフェクト ===== */
+    .click-effect {
+      position: fixed;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #f0e040;
+      text-shadow: 0 0 8px rgba(240, 224, 64, 0.8);
+      pointer-events: none;
+      animation: floatUp 0.9s ease-out forwards;
+      z-index: 300;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      50%  { opacity: 1; transform: translateY(-30px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(-70px) scale(0.9); }
+    }
+
+    /* ===== 中央: セーブ・統計エリア ===== */
+    #stats-area {
+      background-color: #12122a;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .stat-row span:last-child {
+      color: #a8dadc;
+    }
+
+    /* ===== セーブ・リセットボタン ===== */
+    #save-area {
+      display: flex;
+      gap: 0.8rem;
     }
 
     .util-btn {
       padding: 0.4rem 1rem;
       border-radius: 6px;
-      border: 1px solid #444;
+      border: 1px solid #333;
       background-color: #16213e;
-      color: #888;
+      color: #777;
       cursor: pointer;
       font-size: 0.8rem;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, color 0.2s;
     }
 
     .util-btn:hover {
@@ -196,25 +304,69 @@
     #save-notice {
       font-size: 0.75rem;
       color: #555;
-      margin-top: 0.4rem;
+      height: 1rem;
+      text-align: center;
     }
 
-    /* 実績トースト通知 */
+    /* ===== 実績エリア（中央下部） ===== */
+    #achievement-area {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    #achievement-area .panel-title {
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #555;
+      border-bottom: 1px solid #2a2a4a;
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    #achievement-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .achievement-badge {
+      padding: 0.3rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid #2a2a4a;
+      background-color: #12122a;
+      color: #3a3a5a;
+      transition: all 0.3s;
+    }
+
+    .achievement-badge.unlocked {
+      border-color: #f0a500;
+      color: #f0a500;
+      background-color: #1e1e10;
+      box-shadow: 0 0 6px rgba(240, 165, 0, 0.2);
+    }
+
+    /* ===== 実績トースト ===== */
     #achievement-toast {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      background: linear-gradient(135deg, #0f3460, #16213e);
+      background: linear-gradient(135deg, #1a2040, #0f1a30);
       border: 1px solid #f0a500;
-      border-radius: 10px;
-      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      padding: 0.85rem 1.2rem;
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      box-shadow: 0 0 20px rgba(240, 165, 0, 0.3);
-      z-index: 200;
+      box-shadow: 0 0 25px rgba(240, 165, 0, 0.3);
+      z-index: 500;
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateX(20px);
       transition: opacity 0.3s, transform 0.3s;
       pointer-events: none;
       max-width: 280px;
@@ -222,24 +374,24 @@
 
     #achievement-toast.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     }
 
     .toast-icon {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       flex-shrink: 0;
     }
 
     .toast-body {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.12rem;
     }
 
     .toast-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #f0a500;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
     }
 
@@ -250,86 +402,76 @@
     }
 
     .toast-desc {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: #888;
-    }
-
-    /* 実績一覧パネル */
-    #achievement-panel {
-      margin-top: 2rem;
-      width: 100%;
-      max-width: 680px;
-    }
-
-    #achievement-panel .panel-title {
-      font-size: 0.85rem;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.4rem;
-      margin-bottom: 0.6rem;
-    }
-
-    #achievement-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .achievement-badge {
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      border: 1px solid #333;
-      background-color: #16213e;
-      color: #555;
-    }
-
-    .achievement-badge.unlocked {
-      border-color: #f0a500;
-      color: #f0a500;
-      background-color: #1e2d50;
     }
   </style>
 </head>
 <body>
 
-  <h1>clickergame1</h1>
-  <div id="score">スコア: 0</div>
-  <div id="cps-display">毎秒 +0.0点</div>
+  <!-- ===== ヘッダー ===== -->
+  <header>
+    <h1>💰 clickergame1</h1>
+    <div id="header-score">$0</div>
+    <div id="header-cps">毎秒 +$0.0</div>
+  </header>
 
-  <button id="click-btn">クリック!</button>
-  <div id="per-click">1クリック = 1点</div>
+  <!-- ===== メインレイアウト ===== -->
+  <div id="main-layout">
 
-  <div id="bottom-area">
-    <!-- アップグレードパネル -->
-    <div class="panel" id="upgrade-panel">
-      <div class="panel-title">アップグレード</div>
+    <!-- 左パネル: アップグレード -->
+    <div id="left-panel">
+      <div class="panel-header">💡 アップグレード</div>
       <!-- JS で生成 -->
     </div>
 
-    <!-- 生産者パネル -->
-    <div class="panel" id="producer-panel">
-      <div class="panel-title">生産者</div>
+    <!-- 中央パネル -->
+    <div id="center-panel">
+
+      <!-- クリックボタン -->
+      <div id="click-area">
+        <button id="click-btn">💵</button>
+        <div id="per-click">1クリック = $1</div>
+      </div>
+
+      <!-- 統計情報 -->
+      <div id="stats-area">
+        <div class="stat-row">
+          <span>総クリック数</span>
+          <span id="stat-clicks">0回</span>
+        </div>
+        <div class="stat-row">
+          <span>購入した生産者</span>
+          <span id="stat-producers">0台</span>
+        </div>
+        <div class="stat-row">
+          <span>解除した実績</span>
+          <span id="stat-achievements">0 / 14</span>
+        </div>
+      </div>
+
+      <!-- セーブボタン -->
+      <div id="save-area">
+        <button class="util-btn" id="save-btn">セーブ</button>
+        <button class="util-btn" id="reset-btn">リセット</button>
+      </div>
+      <div id="save-notice"></div>
+
+      <!-- 実績一覧 -->
+      <div id="achievement-area">
+        <div class="panel-title">🏆 実績</div>
+        <div id="achievement-list"></div>
+      </div>
+
+    </div>
+
+    <!-- 右パネル: 生産者 -->
+    <div id="right-panel">
+      <div class="panel-header">🏭 生産者</div>
       <!-- JS で生成 -->
     </div>
-  </div>
 
-  <!-- 実績一覧 -->
-  <div id="achievement-panel">
-    <div class="panel-title">実績</div>
-    <div id="achievement-list"></div>
   </div>
-
-  <div id="save-area">
-    <button class="util-btn" id="save-btn">セーブ</button>
-    <button class="util-btn" id="reset-btn">リセット</button>
-  </div>
-  <div id="save-notice"></div>
 
   <!-- 実績トースト通知 -->
   <div id="achievement-toast">
@@ -352,21 +494,21 @@
 
     // アップグレード定義
     const UPGRADES = [
-      { id: 'u1', name: 'クリック強化 Lv.1', cost: 10,   power: 1  },
-      { id: 'u2', name: 'クリック強化 Lv.2', cost: 50,   power: 5  },
-      { id: 'u3', name: 'クリック強化 Lv.3', cost: 200,  power: 20 },
-      { id: 'u4', name: 'クリック強化 Lv.4', cost: 1000, power: 100 },
+      { id: 'u1', icon: '⚡', name: 'クリック強化 Lv.1', cost: 10,   power: 1   },
+      { id: 'u2', icon: '🔥', name: 'クリック強化 Lv.2', cost: 50,   power: 5   },
+      { id: 'u3', icon: '💥', name: 'クリック強化 Lv.3', cost: 200,  power: 20  },
+      { id: 'u4', icon: '🌟', name: 'クリック強化 Lv.4', cost: 1000, power: 100 },
     ];
 
     // 購入済みアップグレード管理
     const upgradePurchased = {};
 
-    // 生産者定義（自動クリック）
+    // 生産者定義（自動収入）
     const PRODUCERS = [
-      { id: 'p1', name: '見習いクリッカー', desc: '手動で頑張る見習い',   baseCost: 15,   baseCps: 0.1  },
-      { id: 'p2', name: 'オートクリッカー', desc: '自動でクリックする機械', baseCost: 100,  baseCps: 0.5  },
-      { id: 'p3', name: 'クリックロボット', desc: '高性能クリックロボット', baseCost: 500,  baseCps: 2    },
-      { id: 'p4', name: 'クリック工場',     desc: '大量生産クリック工場',  baseCost: 2000, baseCps: 10   },
+      { id: 'p1', icon: '👶', name: '見習いクリッカー', desc: '手動で頑張る見習い',    baseCost: 15,   baseCps: 0.1  },
+      { id: 'p2', icon: '🤖', name: 'オートクリッカー', desc: '自動でクリックする機械', baseCost: 100,  baseCps: 0.5  },
+      { id: 'p3', icon: '🦾', name: 'クリックロボット', desc: '高性能クリックロボット', baseCost: 500,  baseCps: 2    },
+      { id: 'p4', icon: '🏭', name: 'クリック工場',     desc: '大量生産クリック工場',   baseCost: 2000, baseCps: 10   },
     ];
 
     // 生産者の個数
@@ -377,20 +519,20 @@
     // 実績定義
     // ============================================================
     const ACHIEVEMENTS = [
-      { id: 'a_first_click',    icon: '👆', name: '初クリック',       desc: '初めてクリックした',           check: () => totalClicks >= 1 },
-      { id: 'a_click_100',      icon: '🖱️', name: '100クリック',      desc: '合計100回クリックした',        check: () => totalClicks >= 100 },
-      { id: 'a_click_1000',     icon: '⚡', name: '1000クリック',     desc: '合計1000回クリックした',       check: () => totalClicks >= 1000 },
-      { id: 'a_score_100',      icon: '💯', name: '100点突破',        desc: 'スコアが100点を超えた',        check: () => score >= 100 },
-      { id: 'a_score_1000',     icon: '🌟', name: '1000点突破',       desc: 'スコアが1000点を超えた',       check: () => score >= 1000 },
-      { id: 'a_score_10000',    icon: '🚀', name: '1万点突破',        desc: 'スコアが1万点を超えた',        check: () => score >= 10000 },
-      { id: 'a_score_100000',   icon: '👑', name: '10万点突破',       desc: 'スコアが10万点を超えた',       check: () => score >= 100000 },
-      { id: 'a_first_upgrade',  icon: '⬆️', name: '強化の第一歩',     desc: '初めてアップグレードを購入した', check: () => Object.values(upgradePurchased).some(v => v) },
-      { id: 'a_all_upgrades',   icon: '💎', name: '完全強化',         desc: '全アップグレードを購入した',   check: () => UPGRADES.every(u => upgradePurchased[u.id]) },
-      { id: 'a_first_producer', icon: '🤖', name: '自動化の始まり',   desc: '初めて生産者を購入した',       check: () => totalProducers >= 1 },
-      { id: 'a_producer_10',    icon: '🏭', name: '生産者10台',       desc: '生産者を合計10台購入した',     check: () => totalProducers >= 10 },
-      { id: 'a_producer_50',    icon: '🌆', name: '生産者50台',       desc: '生産者を合計50台購入した',     check: () => totalProducers >= 50 },
-      { id: 'a_cps_10',         icon: '⏱️', name: '秒速10点',         desc: '毎秒10点以上を生産している',   check: () => calcCps() >= 10 },
-      { id: 'a_cps_100',        icon: '💨', name: '秒速100点',        desc: '毎秒100点以上を生産している',  check: () => calcCps() >= 100 },
+      { id: 'a_first_click',    icon: '👆', name: '初クリック',     desc: '初めてクリックした',              check: () => totalClicks >= 1 },
+      { id: 'a_click_100',      icon: '🖱️', name: '100クリック',    desc: '合計100回クリックした',           check: () => totalClicks >= 100 },
+      { id: 'a_click_1000',     icon: '⚡', name: '1000クリック',   desc: '合計1000回クリックした',          check: () => totalClicks >= 1000 },
+      { id: 'a_score_100',      icon: '💰', name: '$100突破',       desc: '残高が$100を超えた',              check: () => score >= 100 },
+      { id: 'a_score_1000',     icon: '🌟', name: '$1,000突破',     desc: '残高が$1,000を超えた',            check: () => score >= 1000 },
+      { id: 'a_score_10000',    icon: '🚀', name: '$10,000突破',    desc: '残高が$10,000を超えた',           check: () => score >= 10000 },
+      { id: 'a_score_100000',   icon: '👑', name: '$100,000突破',   desc: '残高が$100,000を超えた',          check: () => score >= 100000 },
+      { id: 'a_first_upgrade',  icon: '⬆️', name: '強化の第一歩',   desc: '初めてアップグレードを購入した',   check: () => Object.values(upgradePurchased).some(v => v) },
+      { id: 'a_all_upgrades',   icon: '💎', name: '完全強化',       desc: '全アップグレードを購入した',      check: () => UPGRADES.every(u => upgradePurchased[u.id]) },
+      { id: 'a_first_producer', icon: '🤖', name: '自動化の始まり', desc: '初めて生産者を購入した',          check: () => totalProducers >= 1 },
+      { id: 'a_producer_10',    icon: '🏭', name: '生産者10台',     desc: '生産者を合計10台購入した',        check: () => totalProducers >= 10 },
+      { id: 'a_producer_50',    icon: '🌆', name: '生産者50台',     desc: '生産者を合計50台購入した',        check: () => totalProducers >= 50 },
+      { id: 'a_cps_10',         icon: '⏱️', name: '毎秒$10',        desc: '毎秒$10以上を稼いでいる',         check: () => calcCps() >= 10 },
+      { id: 'a_cps_100',        icon: '💨', name: '毎秒$100',       desc: '毎秒$100以上を稼いでいる',        check: () => calcCps() >= 100 },
     ];
 
     // 解除済み実績
@@ -414,17 +556,33 @@
       return PRODUCERS.reduce((sum, p) => sum + p.baseCps * producerCount[p.id], 0);
     }
 
+    // 数値を読みやすいドル表示に変換（カンマ区切り）
+    function formatMoney(value) {
+      const n = Math.floor(value);
+      if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(2)}B`;
+      if (n >= 1_000_000)     return `$${(n / 1_000_000).toFixed(2)}M`;
+      if (n >= 10_000)        return `$${n.toLocaleString('en-US')}`;
+      return `$${n.toLocaleString('en-US')}`;
+    }
+
     // ============================================================
     // 画面更新
     // ============================================================
 
     function updateScore() {
-      document.getElementById('score').textContent = `スコア: ${Math.floor(score)}`;
+      document.getElementById('header-score').textContent = formatMoney(score);
     }
 
     function updateCpsDisplay() {
       const cps = calcCps();
-      document.getElementById('cps-display').textContent = `毎秒 +${cps.toFixed(1)}点`;
+      document.getElementById('header-cps').textContent = `毎秒 +$${cps.toFixed(1)}`;
+    }
+
+    function updateStats() {
+      document.getElementById('stat-clicks').textContent = `${totalClicks.toLocaleString('en-US')}回`;
+      document.getElementById('stat-producers').textContent = `${totalProducers}台`;
+      const unlocked = Object.values(achievementUnlocked).filter(Boolean).length;
+      document.getElementById('stat-achievements').textContent = `${unlocked} / ${ACHIEVEMENTS.length}`;
     }
 
     function updateAllButtons() {
@@ -432,7 +590,9 @@
       UPGRADES.forEach(u => {
         const btn = document.getElementById('btn-' + u.id);
         if (!btn) return;
-        btn.disabled = upgradePurchased[u.id] || score < u.cost;
+        if (!upgradePurchased[u.id]) {
+          btn.disabled = score < u.cost;
+        }
       });
 
       // 生産者ボタン
@@ -441,9 +601,7 @@
         if (!btn) return;
         const cost = getProducerCost(p);
         btn.disabled = score < cost;
-        // コスト表示を更新
-        btn.querySelector('.btn-cost').textContent = `${cost}点`;
-        // 個数表示を更新
+        btn.querySelector('.btn-cost').textContent = formatMoney(cost);
         btn.querySelector('.btn-count').textContent = `×${producerCount[p.id]}`;
       });
     }
@@ -472,10 +630,8 @@
         if (achievementUnlocked[a.id]) return;
         if (a.check()) {
           achievementUnlocked[a.id] = true;
-          // バッジを解除済みに更新
           const badge = document.getElementById('badge-' + a.id);
           if (badge) badge.className = 'achievement-badge unlocked';
-          // トースト通知をキューに追加
           toastQueue.push(a);
           showNextToast();
           autoSave();
@@ -509,17 +665,20 @@
     // ============================================================
 
     function buildUpgradePanel() {
-      const panel = document.getElementById('upgrade-panel');
+      const panel = document.getElementById('left-panel');
       UPGRADES.forEach(u => {
         const btn = document.createElement('button');
         btn.className = 'shop-btn';
         btn.id = 'btn-' + u.id;
         btn.innerHTML = `
-          <div class="btn-left">
+          <span class="btn-icon">${u.icon}</span>
+          <div class="btn-info">
             <span class="btn-name">${u.name}</span>
-            <span class="btn-desc">クリック +${u.power}点</span>
+            <span class="btn-desc">クリック +$${u.power}</span>
           </div>
-          <span class="btn-cost">${u.cost}点</span>
+          <div class="btn-right">
+            <span class="btn-cost">${formatMoney(u.cost)}</span>
+          </div>
         `;
         btn.addEventListener('click', () => buyUpgrade(u));
         panel.appendChild(btn);
@@ -527,18 +686,21 @@
     }
 
     function buildProducerPanel() {
-      const panel = document.getElementById('producer-panel');
+      const panel = document.getElementById('right-panel');
       PRODUCERS.forEach(p => {
         const btn = document.createElement('button');
         btn.className = 'shop-btn';
         btn.id = 'btn-' + p.id;
         btn.innerHTML = `
-          <div class="btn-left">
+          <span class="btn-icon">${p.icon}</span>
+          <div class="btn-info">
             <span class="btn-name">${p.name}</span>
-            <span class="btn-desc">${p.desc}（+${p.baseCps}/秒）</span>
+            <span class="btn-desc">+$${p.baseCps}/秒</span>
           </div>
-          <span class="btn-cost">${p.baseCost}点</span>
-          <span class="btn-count">×0</span>
+          <div class="btn-right">
+            <span class="btn-cost">${formatMoney(p.baseCost)}</span>
+            <span class="btn-count">×0</span>
+          </div>
         `;
         btn.addEventListener('click', () => buyProducer(p));
         panel.appendChild(btn);
@@ -555,13 +717,14 @@
       clickPower += u.power;
       upgradePurchased[u.id] = true;
 
-      // ボタンを購入済み表示に変更
       const btn = document.getElementById('btn-' + u.id);
       btn.querySelector('.btn-name').textContent += ' ✓';
+      btn.classList.add('purchased');
       btn.disabled = true;
 
-      document.getElementById('per-click').textContent = `1クリック = ${clickPower}点`;
+      document.getElementById('per-click').textContent = `1クリック = $${clickPower}`;
       updateScore();
+      updateStats();
       updateAllButtons();
       checkAchievements();
       autoSave();
@@ -575,6 +738,7 @@
       totalProducers++;
       updateScore();
       updateCpsDisplay();
+      updateStats();
       updateAllButtons();
       checkAchievements();
       autoSave();
@@ -588,18 +752,19 @@
       score += clickPower;
       totalClicks++;
       updateScore();
+      updateStats();
       updateAllButtons();
       checkAchievements();
       spawnClickEffect(e.clientX, e.clientY, clickPower);
       autoSave();
     });
 
-    // クリックエフェクト（+N が飛び出す）
+    // クリックエフェクト（+$N が飛び出す）
     function spawnClickEffect(x, y, value) {
       const el = document.createElement('div');
       el.className = 'click-effect';
-      el.textContent = `+${value}`;
-      el.style.left = `${x - 10}px`;
+      el.textContent = `+$${value}`;
+      el.style.left = `${x - 15}px`;
       el.style.top  = `${y - 10}px`;
       document.body.appendChild(el);
       el.addEventListener('animationend', () => el.remove());
@@ -659,6 +824,7 @@
             const btn = document.getElementById('btn-' + u.id);
             if (btn) {
               btn.querySelector('.btn-name').textContent += ' ✓';
+              btn.classList.add('purchased');
               btn.disabled = true;
             }
           }
@@ -670,18 +836,19 @@
         Object.assign(producerCount, data.producerCount);
       }
 
-      // 実績復元（通知なしで復元）
+      // 実績復元（通知なし）
       if (data.achievementUnlocked) {
         Object.assign(achievementUnlocked, data.achievementUnlocked);
       }
 
-      document.getElementById('per-click').textContent = `1クリック = ${clickPower}点`;
+      document.getElementById('per-click').textContent = `1クリック = $${clickPower}`;
       updateScore();
       updateCpsDisplay();
+      updateStats();
       updateAllButtons();
     }
 
-    // 30秒ごとに自動セーブ
+    // 操作ごとに自動セーブ
     function autoSave() { saveGame(false); }
     setInterval(() => saveGame(false), 30000);
 
@@ -700,7 +867,7 @@
     buildUpgradePanel();
     buildProducerPanel();
     loadGame();
-    buildAchievementList(); // ロード後に実績バッジを描画（解除済み状態を反映）
+    buildAchievementList(); // ロード後に実績バッジを描画
     updateCpsDisplay();
     updateAllButtons();
   </script>
